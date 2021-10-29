@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'CounterModel.dart';
 
@@ -12,6 +12,7 @@ class MySecondPage extends StatefulWidget {
 class _MySecondPageState extends State<MySecondPage> {
   @override
   Widget build(BuildContext context) {
+    final container = CounterContainer.of(context);
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
@@ -21,7 +22,7 @@ class _MySecondPageState extends State<MySecondPage> {
               Navigator.pop(context);
             },
           ),
-          title: Text('Provider App'),
+          title: Text('Inherited Sample'),
         ),
         body: Center(
           child: Column(
@@ -31,14 +32,16 @@ class _MySecondPageState extends State<MySecondPage> {
                 'You have pushed the button this many times:',
               ),
               Text(
-                '0',
+                '${container.count}',
                 style: Theme.of(context).textTheme.headline4,
               )
             ],
           ),
         ),
         floatingActionButton: FloatingActionButton(
-          onPressed: () {},
+          onPressed: () {
+            container.decrement();
+          },
           tooltip: 'Decrement',
           child: Icon(Icons.remove),
         ),
