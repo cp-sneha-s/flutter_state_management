@@ -10,6 +10,9 @@ dependencies:
   flutter:
     sdk: flutter
   provider: any
+  flutter_riverpod: any
+
+
 
 
   cupertino_icons: ^1.0.0

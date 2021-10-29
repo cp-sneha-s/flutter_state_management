@@ -4,8 +4,7 @@ import 'package:provider/provider.dart';
 import 'MyHomePage.dart';
 
 void main() {
-  runApp(ChangeNotifierProvider(
-      create: (context) => CounterModel(), child: MyApp()));
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {

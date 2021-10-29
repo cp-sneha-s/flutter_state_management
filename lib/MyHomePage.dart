@@ -39,20 +39,15 @@ class _MyHomePageState extends State<MyHomePage> {
             Text(
               'You have pushed the button this many times:',
             ),
-            Consumer<CounterModel>(builder: (context, counter, child) {
-              return Text(
-                '${counter.count}',
-                style: Theme.of(context).textTheme.headline4,
-              );
-            })
+            Text(
+              '0',
+              style: Theme.of(context).textTheme.headline4,
+            )
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          var counter = context.read<CounterModel>();
-          counter.increment();
-        },
+        onPressed: () {},
         tooltip: 'Increment',
         child: Icon(Icons.add),
       ),
