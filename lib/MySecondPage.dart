@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_redux/flutter_redux.dart';
-import 'CounterModel.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'CounterObserver.dart';
 
 class MySecondPage extends StatefulWidget {
   @override
@@ -20,7 +20,7 @@ class _MySecondPageState extends State<MySecondPage> {
               Navigator.pop(context);
             },
           ),
-          title: Text('Redux Sample'),
+          title: Text('BolC Sample'),
         ),
         body: Center(
           child: Column(
@@ -29,26 +29,19 @@ class _MySecondPageState extends State<MySecondPage> {
               Text(
                 'You have pushed the button this many times:',
               ),
-              StoreConnector<int, String>(
-                  converter: (store) => store.state.toString(),
-                  builder: (context, count) {
-                    return Text(
-                      '$count',
-                      style: Theme.of(context).textTheme.headline4,
-                    );
-                  })
+              BlocBuilder<CounterCubit, int>(builder: (context, count) {
+                return Text(
+                  '$count',
+                  style: Theme.of(context).textTheme.headline4,
+                );
+              }),
             ],
           ),
         ),
-        floatingActionButton: StoreConnector<int, VoidCallback>(
-          converter: (store) {
-            return () => store.dispatch(Decrement(store.state));
-          },
-          builder: (context, callback) => FloatingActionButton(
-            onPressed: callback,
-            tooltip: 'Decrement',
-            child: Icon(Icons.remove),
-          ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () => context.read<CounterCubit>().decrement(),
+          tooltip: 'Decrement',
+          child: Icon(Icons.remove),
         ),
       ),
     );

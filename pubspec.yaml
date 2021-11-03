@@ -9,8 +9,9 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  provider: any
-  flutter_redux: any
+  bloc: any
+  flutter_bloc: any
+
 
 
 

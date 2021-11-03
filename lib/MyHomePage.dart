@@ -1,16 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_redux/flutter_redux.dart';
-import 'package:flutter_state_management/CounterModel.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_state_management/CounterObserver.dart';
 import 'MySecondPage.dart';
-import 'CounterModel.dart';
+import 'CounterObserver.dart';
 
 class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Redux Sample'),
+        title: Text('BloC Sample'),
         actions: [
           IconButton(
               icon: Icon(Icons.forward),
@@ -30,27 +30,20 @@ class MyHomePage extends StatelessWidget {
             Text(
               'You have pushed the button this many times:',
             ),
-            StoreConnector<int, String>(
-                converter: (store) => store.state.toString(),
-                builder: (context, count) {
-                  return Text(
-                    '$count',
-                    style: Theme.of(context).textTheme.headline4,
-                  );
-                }),
+            BlocBuilder<CounterCubit, int>(builder: (context, count) {
+              return Text(
+                '$count',
+                style: Theme.of(context).textTheme.headline4,
+              );
+            }),
           ],
         ),
       ),
-      floatingActionButton:
-          StoreConnector<int, VoidCallback>(converter: (store) {
-        return () => store.dispatch(Increment(store.state));
-      }, builder: (context, callback) {
-        return FloatingActionButton(
-          onPressed: callback,
-          tooltip: 'Increment',
-          child: Icon(Icons.add),
-        );
-      }),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => context.read<CounterCubit>().increment(),
+        tooltip: 'Increment',
+        child: Icon(Icons.add),
+      ),
     );
   }
 }
