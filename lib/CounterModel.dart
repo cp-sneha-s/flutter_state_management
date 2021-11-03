@@ -1,46 +1,26 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-class _CounterModel extends InheritedWidget {
-  final _CounterContainerState data;
-  _CounterModel({Key key, @required this.data, @required Widget child})
-      : super(key: key, child: child);
-
-  @override
-  bool updateShouldNotify(_CounterModel oldWidget) => true;
-}
-
-class CounterContainer extends StatefulWidget {
-  final Widget child;
+class Increment {
   final int count;
-
-  CounterContainer({@required this.child, this.count});
-  static _CounterContainerState of(BuildContext context) {
-    return (context.inheritFromWidgetOfExactType(_CounterModel)
-            as _CounterModel)
-        .data;
-  }
-
-  @override
-  _CounterContainerState createState() => _CounterContainerState();
+  Increment(this.count);
 }
 
-class _CounterContainerState extends State<CounterContainer> {
-  int count = 0;
-  void increment() {
-    setState(() {
-      count++;
-    });
-  }
+class Decrement {
+  final int count;
+  Decrement(this.count);
+}
 
-  void decrement() {
-    setState(() {
-      count--;
-    });
+int counterReducer(int count, dynamic action) {
+  if (action is Increment) {
+    return increase(count, action);
   }
+  if (action is Decrement) {
+    return decrease(count, action);
+  }
+}
 
-  @override
-  Widget build(BuildContext context) {
-    return _CounterModel(data: this, child: widget.child);
-  }
+int increase(int count, Increment action) {
+  return count = action.count + 1;
+}
+
+int decrease(int count, Decrement action) {
+  return count = action.count - 1;
 }

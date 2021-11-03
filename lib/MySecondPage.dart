@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-
+import 'package:flutter_redux/flutter_redux.dart';
 import 'CounterModel.dart';
 
 class MySecondPage extends StatefulWidget {
@@ -12,7 +11,6 @@ class MySecondPage extends StatefulWidget {
 class _MySecondPageState extends State<MySecondPage> {
   @override
   Widget build(BuildContext context) {
-    final container = CounterContainer.of(context);
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
@@ -22,7 +20,7 @@ class _MySecondPageState extends State<MySecondPage> {
               Navigator.pop(context);
             },
           ),
-          title: Text('Inherited Sample'),
+          title: Text('Redux Sample'),
         ),
         body: Center(
           child: Column(
@@ -31,19 +29,26 @@ class _MySecondPageState extends State<MySecondPage> {
               Text(
                 'You have pushed the button this many times:',
               ),
-              Text(
-                '${container.count}',
-                style: Theme.of(context).textTheme.headline4,
-              )
+              StoreConnector<int, String>(
+                  converter: (store) => store.state.toString(),
+                  builder: (context, count) {
+                    return Text(
+                      '$count',
+                      style: Theme.of(context).textTheme.headline4,
+                    );
+                  })
             ],
           ),
         ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            container.decrement();
+        floatingActionButton: StoreConnector<int, VoidCallback>(
+          converter: (store) {
+            return () => store.dispatch(Decrement(store.state));
           },
-          tooltip: 'Decrement',
-          child: Icon(Icons.remove),
+          builder: (context, callback) => FloatingActionButton(
+            onPressed: callback,
+            tooltip: 'Decrement',
+            child: Icon(Icons.remove),
+          ),
         ),
       ),
     );

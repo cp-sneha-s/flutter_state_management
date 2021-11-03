@@ -1,18 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_state_management/CounterModel.dart';
 import 'MySecondPage.dart';
+import 'CounterModel.dart';
 
 class MyHomePage extends StatelessWidget {
-  int count;
   @override
   Widget build(BuildContext context) {
-    final container = CounterContainer.of(context);
-    count = container.count;
     return Scaffold(
       appBar: AppBar(
-        title: Text('Inherited Sample'),
+        title: Text('Redux Sample'),
         actions: [
           IconButton(
               icon: Icon(Icons.forward),
@@ -32,20 +30,27 @@ class MyHomePage extends StatelessWidget {
             Text(
               'You have pushed the button this many times:',
             ),
-            Text(
-              '${container.count}',
-              style: Theme.of(context).textTheme.headline4,
-            ),
+            StoreConnector<int, String>(
+                converter: (store) => store.state.toString(),
+                builder: (context, count) {
+                  return Text(
+                    '$count',
+                    style: Theme.of(context).textTheme.headline4,
+                  );
+                }),
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          container.increment();
-        },
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ),
+      floatingActionButton:
+          StoreConnector<int, VoidCallback>(converter: (store) {
+        return () => store.dispatch(Increment(store.state));
+      }, builder: (context, callback) {
+        return FloatingActionButton(
+          onPressed: callback,
+          tooltip: 'Increment',
+          child: Icon(Icons.add),
+        );
+      }),
     );
   }
 }

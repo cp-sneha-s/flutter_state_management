@@ -10,7 +10,7 @@ dependencies:
   flutter:
     sdk: flutter
   provider: any
-  flutter_riverpod: any
+  flutter_redux: any
 
 
 
