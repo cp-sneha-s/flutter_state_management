@@ -1,16 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_state_management/CounterObserver.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'MySecondPage.dart';
-import 'CounterObserver.dart';
+import 'CounterStore.dart';
 
 class MyHomePage extends StatelessWidget {
+  final counter = Counter();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('BloC Sample'),
+        title: Text('MobX Sample'),
         actions: [
           IconButton(
               icon: Icon(Icons.forward),
@@ -30,9 +30,9 @@ class MyHomePage extends StatelessWidget {
             Text(
               'You have pushed the button this many times:',
             ),
-            BlocBuilder<CounterCubit, int>(builder: (context, count) {
+            Observer(builder: (_) {
               return Text(
-                '$count',
+                '${counter.count}',
                 style: Theme.of(context).textTheme.headline4,
               );
             }),
@@ -40,7 +40,7 @@ class MyHomePage extends StatelessWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => context.read<CounterCubit>().increment(),
+        onPressed: counter.increment,
         tooltip: 'Increment',
         child: Icon(Icons.add),
       ),
