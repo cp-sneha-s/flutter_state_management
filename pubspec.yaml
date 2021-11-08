@@ -9,8 +9,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  mobx: any
-  flutter_mobx: any
+  get:
 
 
 

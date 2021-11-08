@@ -1,9 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
-import 'CounterStore.dart';
-
-final counter = Counter();
+import 'package:get/get.dart';
+import 'CounterController.dart';
 
 class MySecondPage extends StatefulWidget {
   @override
@@ -19,10 +17,10 @@ class _MySecondPageState extends State<MySecondPage> {
           leading: IconButton(
             icon: Icon(Icons.arrow_back_ios_rounded),
             onPressed: () {
-              Navigator.pop(context);
+              Get.back();
             },
           ),
-          title: Text('MobX Sample'),
+          title: Text('GetX State'),
         ),
         body: Center(
           child: Column(
@@ -31,17 +29,21 @@ class _MySecondPageState extends State<MySecondPage> {
               Text(
                 'You have pushed the button this many times:',
               ),
-              Observer(builder: (_) {
-                return Text(
-                  '${counter.count}',
-                  style: Theme.of(context).textTheme.headline4,
-                );
-              }),
+              GetBuilder<CounterController>(
+                  init: CounterController(),
+                  builder: (_) {
+                    return Text(
+                      '${_.count}',
+                      style: Theme.of(context).textTheme.headline4,
+                    );
+                  }),
             ],
           ),
         ),
         floatingActionButton: FloatingActionButton(
-          onPressed: counter.decrement,
+          onPressed: () {
+            Get.find<CounterController>().decrement();
+          },
           tooltip: 'Decrement',
           child: Icon(Icons.remove),
         ),
